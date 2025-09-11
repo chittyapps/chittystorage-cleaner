@@ -1,0 +1,85 @@
+{
+  "name": "storage-management-daemon",
+  "version": "1.0.0",
+  "description": "Intelligent storage management daemon that automatically organizes files, manages backups, and optimizes disk space across local storage and Google Drive",
+  "main": "src/daemon.js",
+  "bin": {
+    "storage-daemon": "bin/storage-daemon.js",
+    "storage-daemon-install": "install.sh"
+  },
+  "scripts": {
+    "start": "node src/daemon.js",
+    "dev": "NODE_ENV=development node src/daemon.js",
+    "test": "jest",
+    "test:integration": "jest --config jest.integration.config.js",
+    "test:e2e": "jest --config jest.e2e.config.js",
+    "lint": "eslint src/ --ext .js",
+    "lint:fix": "eslint src/ --ext .js --fix",
+    "daemon": "pm2 start src/daemon.js --name storage-daemon",
+    "stop": "pm2 stop storage-daemon",
+    "restart": "pm2 restart storage-daemon",
+    "logs": "pm2 logs storage-daemon",
+    "dashboard": "node src/dashboard.js",
+    "config": "node src/interactive-config.js",
+    "install-service": "node src/install-service.js",
+    "postinstall": "node scripts/post-install.js"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.3",
+    "winston": "^3.11.0",
+    "express": "^4.18.2",
+    "ws": "^8.14.2",
+    "chokidar": "^3.5.3",
+    "systeminformation": "^5.21.20",
+    "googleapis": "^128.0.0",
+    "sqlite3": "^5.1.6",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.2",
+    "pm2": "^5.3.0",
+    "socket.io": "^4.6.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.56.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "supertest": "^6.3.3",
+    "@types/node": "^20.10.5"
+  },
+  "keywords": [
+    "storage",
+    "daemon",
+    "file-management", 
+    "google-drive",
+    "backup",
+    "organization",
+    "cleanup",
+    "automation",
+    "macos",
+    "sync"
+  ],
+  "author": {
+    "name": "Storage Daemon Contributors", 
+    "email": "support@storage-daemon.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/storage-management-daemon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/storage-management-daemon/issues"
+  },
+  "homepage": "https://github.com/username/storage-management-daemon#readme",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "os": ["darwin", "linux"],
+  "preferGlobal": true,
+  "publishConfig": {
+    "access": "public"
+  }
+}
