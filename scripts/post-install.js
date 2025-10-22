@@ -21,7 +21,8 @@ const scriptsToMakeExecutable = [
     'install.sh',
     'manage.sh', 
     'deploy-remote.sh',
-    'bin/storage-daemon.js'
+    'bin/storage-daemon.js',
+    'uninstall.sh'
 ];
 
 scriptsToMakeExecutable.forEach(script => {

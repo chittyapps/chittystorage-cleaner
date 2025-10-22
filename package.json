@@ -25,33 +25,36 @@
     "postinstall": "node scripts/post-install.js"
   },
   "dependencies": {
-    "node-cron": "^3.0.3",
-    "winston": "^3.11.0",
-    "express": "^4.18.2",
-    "ws": "^8.14.2",
-    "chokidar": "^3.5.3",
-    "systeminformation": "^5.21.20",
-    "googleapis": "^128.0.0",
-    "sqlite3": "^5.1.6",
-    "dotenv": "^16.3.1",
     "axios": "^1.6.2",
+    "chokidar": "^3.6.0",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pg": "^8.12.0",
+    "googleapis": "^128.0.0",
+    "mailparser": "^3.7.1",
+    "node-cron": "^3.0.3",
     "pm2": "^5.3.0",
-    "socket.io": "^4.6.2"
+    "socket.io": "^4.6.2",
+    "sqlite3": "^5.1.6",
+    "systeminformation": "^5.21.20",
+    "winston": "^3.11.0",
+    "ws": "^8.14.2"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
+    "@types/node": "^20.10.5",
     "eslint": "^8.56.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
-    "supertest": "^6.3.3",
-    "@types/node": "^20.10.5"
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
   },
   "keywords": [
     "storage",
     "daemon",
-    "file-management", 
+    "file-management",
     "google-drive",
     "backup",
     "organization",
@@ -61,7 +64,7 @@
     "sync"
   ],
   "author": {
-    "name": "Storage Daemon Contributors", 
+    "name": "Storage Daemon Contributors",
     "email": "support@storage-daemon.com"
   },
   "license": "MIT",
@@ -77,7 +80,10 @@
     "node": ">=14.0.0",
     "npm": ">=6.0.0"
   },
-  "os": ["darwin", "linux"],
+  "os": [
+    "darwin",
+    "linux"
+  ],
   "preferGlobal": true,
   "publishConfig": {
     "access": "public"

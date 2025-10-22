@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Storage Daemon Dashboard</title>
+  <style>
+    :root { --bg:#0f1221; --card:#171a2b; --fg:#e8ebff; --muted:#9aa3c9; --accent:#6aa2ff; --ok:#4caf50; --warn:#ffb74d; --err:#ef5350; }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif}
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #252947}
+    h1{font-size:16px;margin:0;color:#fff}
+    #grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:12px}
+    @media (max-width: 1100px){#grid{grid-template-columns:1fr}} .card{background:var(--card);border:1px solid #242842;border-radius:10px;overflow:hidden}
+    .card h2{font-size:14px;margin:0;padding:10px 12px;border-bottom:1px solid #242842;color:#dbe1ff}
+    .body{padding:10px 12px;max-height:60vh;overflow:auto}
+    .kv{display:grid;grid-template-columns:160px 1fr;gap:6px;margin:6px 0}
+    .kv b{color:#c7d2ff}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px}
+    .ok{background:#1a3a1a;color:#9be29b} .warn{background:#3a321a;color:#ffd38a} .err{background:#3a1c1c;color:#ff9a9a}
+    .list{display:grid;gap:8px}
+    .item{border:1px solid #2a2e49;border-radius:8px;padding:8px}
+    .ts{color:var(--muted);font-size:12px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12px}
+    .controls{display:flex;gap:8px}
+    button{background:#243150;color:#cfe0ff;border:1px solid #2f3b5d;border-radius:6px;padding:6px 10px;cursor:pointer}
+    button:hover{background:#2a3b62}
+  </style>
+  <script defer src="/app.js"></script>
+  <script>
+    // basic resilience for older browsers
+    window.addEventListener('error', e => console.log('dash error', e.message))
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Storage Daemon</h1>
+    <div class="controls">
+      <button id="refresh">Refresh</button>
+      <button id="organize">Organize (dry-run)</button>
+      <button id="backup">Backup (dry-run)</button>
+      <button id="snapshot">Snapshot Now</button>
+    </div>
+  </header>
+  <div id="grid">
+    <section class="card">
+      <h2>Status</h2>
+      <div class="body" id="status"></div>
+    </section>
+    <section class="card">
+      <h2>Sync</h2>
+      <div class="body" id="sync"></div>
+    </section>
+    <section class="card">
+      <h2>Intake</h2>
+      <div class="body">
+        <div class="list" id="intake"></div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Recent Actions</h2>
+      <div class="body">
+        <div class="list" id="actions"></div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Alerts</h2>
+      <div class="body">
+        <div class="list" id="alerts"></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

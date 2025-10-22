@@ -146,6 +146,9 @@ storage-daemon config
 | POST | `/api/control/cleanup` | Run cleanup |
 | GET | `/api/config` | Get configuration |
 | POST | `/api/config` | Update configuration |
+| POST | `/api/organize` | Run organize pass |
+| GET | `/api/actions` | Recent organize actions |
+| POST | `/api/backup` | Run critical backup |
 
 ### Example Usage
 ```javascript
@@ -157,6 +160,20 @@ const status = await response.json();
 await fetch('http://localhost:3456/api/control/sync', { 
   method: 'POST' 
 });
+
+// Organize now (dry-run)
+await fetch('http://localhost:3456/api/organize', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ dryRun: true })
+})
+
+// Backup critical folders (dry-run)
+await fetch('http://localhost:3456/api/backup', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ dryRun: true })
+})
 ```
 
 ## 🌐 Multi-Machine Deployment
@@ -207,6 +224,40 @@ npm run test:e2e
 - Sync failures
 - Large duplicate discoveries
 - System health issues
+
+#### Notifications
+- macOS notifications are enabled by default.
+- Slack (optional): set `SLACK_WEBHOOK_URL` or `notifications.slack.webhookUrl`.
+- ChatGPT (optional via OpenAI Assistants API):
+  - Set env vars: `OPENAI_API_KEY` and `OPENAI_ASSISTANT_ID`.
+  - Optional: `OPENAI_THREAD_ID` (if omitted, a new thread id is created and saved to `data/chatgpt-thread.txt`).
+  - Alerts are posted as messages to the thread and a run is triggered.
+  - Note: these messages appear in the OpenAI Assistants API thread; they do not show in standard ChatGPT chats.
+
+#### Notion Dashboard
+- Create a Notion integration and copy the token.
+- Share a parent page with the integration and copy that parent page’s ID.
+- Export env vars:
+  - `export NOTION_API_KEY=...`
+  - `export NOTION_PARENT_PAGE_ID=...`
+- Run setup:
+  - `./manage.sh notion-setup`
+- This creates:
+  - A database for Alerts
+  - A database for Actions
+  - A "Storage Daemon Dashboard" page linking both
+- To have alerts, actions, and status snapshots flow into Notion, set (either env or in config):
+  - Alerts DB: `NOTION_ALERTS_DB_ID` or `notifications.notion.alertsDatabaseId`
+  - Actions DB: `NOTION_ACTIONS_DB_ID` or `notifications.notion.actionsDatabaseId`
+  - Status DB: `NOTION_STATUS_DB_ID` or `notifications.notion.statusDatabaseId`
+  - Optional: a Status page id (for appending text snapshots): `NOTION_STATUS_PAGE_ID`
+
+#### Status Snapshots
+- Daemon writes periodic status snapshots (CPU, memory, disk, files processed, errors, sync operations):
+  - Local log: `data/snapshots.log`
+  - Notion: inserted into the Status database if configured
+- Schedule: `monitoring.statusSchedule` (cron, default `0 9 * * *` daily)
+- Enable/disable: `monitoring.enabled`
 
 ## 🔒 Security
 

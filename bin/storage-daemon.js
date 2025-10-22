@@ -69,6 +69,7 @@ function main() {
         case 'logs':
         case 'dashboard':
         case 'config':
+        case 'backup':
             if (fs.existsSync(MANAGE_SCRIPT)) {
                 runCommand('bash', [MANAGE_SCRIPT, command]);
             } else {

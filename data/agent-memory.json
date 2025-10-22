@@ -1,0 +1,109 @@
+{
+  "savedAt": "2025-10-18T09:36:51.029Z",
+  "longTerm": {},
+  "userPreferences": {},
+  "patterns": {
+    "fileUsage": {},
+    "timeOfDay": {
+      "0": {
+        "fileAccess": 27400,
+        "modifications": 0
+      },
+      "1": {
+        "fileAccess": 27800,
+        "modifications": 0
+      },
+      "2": {
+        "fileAccess": 31200,
+        "modifications": 0
+      },
+      "3": {
+        "fileAccess": 36000,
+        "modifications": 0
+      },
+      "4": {
+        "fileAccess": 33700,
+        "modifications": 0
+      },
+      "5": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "6": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "7": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "8": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "9": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "10": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "11": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "12": {
+        "fileAccess": 29900,
+        "modifications": 0
+      },
+      "13": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "14": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "15": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "16": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "17": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "18": {
+        "fileAccess": 29800,
+        "modifications": 0
+      },
+      "19": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "20": {
+        "fileAccess": 30000,
+        "modifications": 0
+      },
+      "21": {
+        "fileAccess": 31200,
+        "modifications": 0
+      },
+      "22": {
+        "fileAccess": 36000,
+        "modifications": 0
+      },
+      "23": {
+        "fileAccess": 33600,
+        "modifications": 0
+      }
+    },
+    "projectContext": {},
+    "deletionPatterns": {}
+  },
+  "version": "1.0.0"
+}

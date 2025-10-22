@@ -10,7 +10,8 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-DAEMON_DIR="$HOME/storage-daemon"
+# Resolve to repository directory (directory containing this script)
+DAEMON_DIR="$(cd "$(dirname "$0")" && pwd)"
 LAUNCHD_PLIST="com.user.storage-daemon.plist"
 LAUNCHD_PATH="$HOME/Library/LaunchAgents/$LAUNCHD_PLIST"
 NODE_PATH="/usr/local/bin/node"
@@ -163,61 +164,65 @@ start_daemon() {
 # Create management script
 create_management_script() {
     echo -e "\n${YELLOW}Creating management script...${NC}"
-    
-    cat > "$DAEMON_DIR/manage.sh" << 'EOF'
+
+    # If a manage.sh already exists (from repo), keep it
+    if [ -f "$DAEMON_DIR/manage.sh" ]; then
+        chmod +x "$DAEMON_DIR/manage.sh"
+    else
+        cat > "$DAEMON_DIR/manage.sh" << EOF
 #!/bin/bash
 
 # Storage Daemon Management Script
 
-DAEMON_DIR="$HOME/storage-daemon"
+DAEMON_DIR="$DAEMON_DIR"
 LAUNCHD_LABEL="com.user.storage-daemon"
 DASHBOARD_URL="http://localhost:3456"
 
-case "$1" in
+case "\$1" in
     start)
         echo "Starting Storage Daemon..."
-        launchctl load "$HOME/Library/LaunchAgents/$LAUNCHD_LABEL.plist" 2>/dev/null || echo "Already running"
+        launchctl load "\$HOME/Library/LaunchAgents/\$LAUNCHD_LABEL.plist" 2>/dev/null || echo "Already running"
         ;;
     stop)
         echo "Stopping Storage Daemon..."
-        launchctl unload "$HOME/Library/LaunchAgents/$LAUNCHD_LABEL.plist"
+        launchctl unload "\$HOME/Library/LaunchAgents/\$LAUNCHD_LABEL.plist"
         ;;
     restart)
         echo "Restarting Storage Daemon..."
-        launchctl unload "$HOME/Library/LaunchAgents/$LAUNCHD_LABEL.plist" 2>/dev/null || true
+        launchctl unload "\$HOME/Library/LaunchAgents/\$LAUNCHD_LABEL.plist" 2>/dev/null || true
         sleep 1
-        launchctl load "$HOME/Library/LaunchAgents/$LAUNCHD_LABEL.plist"
+        launchctl load "\$HOME/Library/LaunchAgents/\$LAUNCHD_LABEL.plist"
         ;;
     status)
-        if launchctl list | grep -q "$LAUNCHD_LABEL"; then
+        if launchctl list | grep -q "\$LAUNCHD_LABEL"; then
             echo "✓ Daemon is running"
-            echo "Dashboard: $DASHBOARD_URL"
+            echo "Dashboard: \$DASHBOARD_URL"
         else
             echo "✗ Daemon is not running"
         fi
         ;;
     logs)
-        tail -f "$DAEMON_DIR/logs/daemon.log"
+        tail -f "\$DAEMON_DIR/logs/daemon.log"
         ;;
     dashboard)
-        open "$DASHBOARD_URL"
+        open "\$DASHBOARD_URL"
         ;;
     config)
-        ${EDITOR:-nano} "$DAEMON_DIR/config/daemon.config.json"
+        node "\$DAEMON_DIR/src/interactive-config.js"
         ;;
     *)
-        echo "Usage: $0 {start|stop|restart|status|logs|dashboard|config}"
+        echo "Usage: \$0 {start|stop|restart|status|logs|dashboard|config}"
         exit 1
         ;;
 esac
 EOF
-    
-    chmod +x "$DAEMON_DIR/manage.sh"
-    
+        chmod +x "$DAEMON_DIR/manage.sh"
+    fi
+
     # Create symlink for easy access
     ln -sf "$DAEMON_DIR/manage.sh" "/usr/local/bin/storage-daemon" 2>/dev/null || \
     ln -sf "$DAEMON_DIR/manage.sh" "$HOME/bin/storage-daemon" 2>/dev/null || true
-    
+
     echo -e "${GREEN}✓ Management script created${NC}"
 }
 
