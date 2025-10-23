@@ -19,13 +19,14 @@ Usage: storage-daemon <command>
 
 Commands:
   start       Start the daemon
-  stop        Stop the daemon  
+  stop        Stop the daemon
   restart     Restart the daemon
   status      Show daemon status
   logs        Show daemon logs
   dashboard   Open web dashboard
   config      Configuration options (interactive/file)
   configure   Interactive configuration setup
+  cleanup     Run cleanup to free disk space
   install     Install daemon service
   uninstall   Remove daemon service
   version     Show version
@@ -34,6 +35,7 @@ Examples:
   storage-daemon start
   storage-daemon status
   storage-daemon dashboard
+  storage-daemon cleanup
 `);
 }
 
@@ -85,6 +87,16 @@ function main() {
                 runCommand('node', [configScript]);
             } else {
                 console.error('Interactive config not found');
+                process.exit(1);
+            }
+            break;
+
+        case 'cleanup':
+            const cleanupScript = path.join(DAEMON_DIR, 'src/cleanup.js');
+            if (fs.existsSync(cleanupScript)) {
+                runCommand('node', [cleanupScript]);
+            } else {
+                console.error('Cleanup script not found');
                 process.exit(1);
             }
             break;
